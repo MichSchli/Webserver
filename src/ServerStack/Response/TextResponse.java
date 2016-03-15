@@ -17,7 +17,6 @@ public class TextResponse implements IResponse {
 	public void WriteToStream(OutputStream stream) {
 		PrintWriter out = new PrintWriter(stream);
 
-		
 		out.println("HTTP/1.1 "+status); // Version & status code
         out.println("Content-Type: text/plain"); // The type of data
         out.println(); // End of headers
@@ -26,7 +25,6 @@ public class TextResponse implements IResponse {
                 
         out.flush();
 	}
-	
 	
 	@Override
 	public String toString() {

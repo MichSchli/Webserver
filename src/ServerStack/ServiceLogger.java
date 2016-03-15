@@ -1,6 +1,7 @@
 package ServerStack;
 
 import ServerStack.Request.Request;
+import ServerStack.Response.IResponse;
 import ServerStack.Response.TextResponse;
 
 public class ServiceLogger implements IRequestHandler{
@@ -11,10 +12,10 @@ public class ServiceLogger implements IRequestHandler{
 	}
 	
 	@Override
-	public TextResponse Process(Request request) {
+	public IResponse Process(Request request) {
 		System.out.println(request);
 		
-		TextResponse response = next.Process(request);
+		IResponse response = next.Process(request);
 
 		System.out.println(response);
 		return response;

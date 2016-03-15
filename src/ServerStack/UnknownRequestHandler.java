@@ -8,7 +8,7 @@ public class UnknownRequestHandler implements IRequestHandler {
 
 	@Override
 	public TextResponse Process(Request request) {
-		return ResponseFactory.Error("200", "The requested service ("+request.Method+'@'+request.Address+") does not exist.");
+		return ResponseFactory.Error("404", "The requested service ("+request.Method+'@'+request.Address+") does not exist.");
 	}
 
 }

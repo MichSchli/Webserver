@@ -3,7 +3,7 @@ package Utilities.Pattern;
 public class Pattern {
 
 	private String part;
-	private Pattern next;
+	public Pattern next;
 
 	public Pattern(String part) {
 		this.part = part;
@@ -23,7 +23,7 @@ public class Pattern {
 	}
 
 	public boolean Match(Pattern pattern){
-		boolean thisPartMatches = part.equals('*') || part.equals(pattern.part);
+		boolean thisPartMatches = part.equals("*") || part.equals(pattern.part);
 		if (!thisPartMatches){
 			return false;
 		}

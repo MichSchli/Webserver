@@ -1,11 +1,12 @@
 package ServerStack;
 
 import ServerStack.Request.Request;
+import ServerStack.Response.IResponse;
 import ServerStack.Response.TextResponse;
 
 public interface IRequestHandler {
 
-	public TextResponse Process(Request request);
+	public IResponse Process(Request request);
 
 	
 }

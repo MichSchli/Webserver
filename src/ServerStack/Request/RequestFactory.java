@@ -17,7 +17,7 @@ public class RequestFactory {
 		String[] l = line.split(" ");
 		
 		request.Method = l[0];
-		request.Address = new Pattern(l[1].split("/"), 0);
+		request.Address = new Pattern(l[1].split("/"), 1);
 
 		//Throw away the rest for now:
 		while ((line = reader.readLine()) != null) {
