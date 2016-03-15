@@ -1,6 +1,4 @@
-package ServerStack;
-
-import ServerStack.Response.TextResponse;
+package ServerStack.Response;
 
 public class ResponseFactory {
 

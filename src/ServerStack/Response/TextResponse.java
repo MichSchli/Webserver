@@ -23,10 +23,13 @@ public class TextResponse implements IResponse {
         out.println(); // End of headers
 
         out.print(body);
-        
-        System.out.println("Printed");
-        
+                
         out.flush();
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "TextResponse:\nStatus:\t"+status+"\n"+body+"\n============================";
+	}
 }

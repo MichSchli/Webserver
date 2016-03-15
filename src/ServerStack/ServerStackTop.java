@@ -1,5 +1,6 @@
 package ServerStack;
 
+import ServerStack.Request.Request;
 import ServerStack.Response.IResponse;
 
 public class ServerStackTop {
@@ -8,7 +9,8 @@ public class ServerStackTop {
 
 	public ServerStackTop() {
 		IRequestHandler l1 = new UnknownRequestHandler();
-		this.top = l1;
+		IRequestHandler l2 = new ServiceLogger(l1);
+		this.top = l2;
 	}
 	
 	public IResponse Process(Request request) {

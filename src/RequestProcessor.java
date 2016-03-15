@@ -7,8 +7,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
-import ServerStack.Request;
 import ServerStack.ServerStackTop;
+import ServerStack.Request.Request;
+import ServerStack.Request.RequestFactory;
 import ServerStack.Response.IResponse;
 import ServerStack.Response.TextResponse;
 
@@ -34,18 +35,11 @@ public class RequestProcessor implements Runnable {
 		OutputStream outStream = socket.getOutputStream();
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(inStream));
-		String line;
 		
-		while ((line = br.readLine()) != null) {
-	          if (line.length() == 0)
-	            break;
-	          System.out.println(line);
-	        }
-		
+		Request request = RequestFactory.ReadFromBufferedReader(br);
 		ServerStackTop stack = new ServerStackTop();
 		
-		IResponse response = stack.Process(new Request());
-		System.out.println(response);
+		IResponse response = stack.Process(request);
 		
 		response.WriteToStream(outStream);
         br.close(); // Close the input stream

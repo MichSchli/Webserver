@@ -1,5 +1,6 @@
 package ServerStack;
 
+import ServerStack.Request.Request;
 import ServerStack.Response.TextResponse;
 
 public abstract class BaseRequestHandler implements IRequestHandler{
