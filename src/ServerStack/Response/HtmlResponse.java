@@ -13,7 +13,7 @@ public class HtmlResponse implements IResponse {
         out.println("Content-Type: text/html"); // The type of data
         out.println(); // End of headers
 
-        out.print("<html>hi</html>\n<img src=\"image/s/459\">");
+        out.print("<html>hi</html>\n<img src=\"image/1\">");
                 
         out.flush();
 	}

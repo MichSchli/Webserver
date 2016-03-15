@@ -19,7 +19,7 @@ public class RedirectService implements IRequestHandler {
 		this.next = next;
 
 		Pattern p1 = new Pattern(new String[] { "image", "*" }, 0);
-		Pattern p2 = new Pattern(new String[] { "image", "C:", "Windows", "grf", "pc", "*" }, 0);
+		Pattern p2 = new Pattern(new String[] { "image", "home", "michael", "media", "images", "*" }, 0);
 
 		patterns.put(p1, p2);
 	}
@@ -51,7 +51,11 @@ public class RedirectService implements IRequestHandler {
 			}
 		} else if (newPattern.part.equals("*")) {
 			String tba = starParts.remove(0);
-			return new Pattern(tba, doReplace(newPattern.next, starParts));
+			if (!starParts.isEmpty()) {
+				return new Pattern(tba, doReplace(newPattern.next, starParts));
+			} else {
+				return new Pattern(tba, null);
+			}
 		} else {
 			return new Pattern(newPattern.part, doReplace(newPattern.next, starParts));
 		}
