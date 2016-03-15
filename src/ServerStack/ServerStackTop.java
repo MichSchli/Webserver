@@ -10,8 +10,11 @@ public class ServerStackTop {
 	public ServerStackTop() {
 		IRequestHandler l1 = new UnknownRequestHandler();
 		IRequestHandler l2 = new ImageService(l1);
+		IRequestHandler l3 = new HtmlService(l2);
 		
-		this.top = new ServiceLogger(l2);
+		IRequestHandler l4 = new RedirectService(l3);
+		
+		this.top = new ServiceLogger(l4);
 	}
 	
 	public IResponse Process(Request request) {

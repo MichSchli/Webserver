@@ -2,7 +2,7 @@ package Utilities.Pattern;
 
 public class Pattern {
 
-	private String part;
+	public String part;
 	public Pattern next;
 
 	public Pattern(String part) {
@@ -27,8 +27,9 @@ public class Pattern {
 		if (!thisPartMatches){
 			return false;
 		}
-		boolean isFinal = next == null && pattern.next == null;
+		boolean isFinal = next == null && (pattern.next == null || part.equals("*"));
 		if (isFinal){
+			System.out.println("final");
 			return true;
 		}
 		
