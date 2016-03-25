@@ -10,7 +10,7 @@ public class ServerStackTop {
 	public ServerStackTop() {
 		IRequestHandler l1 = new UnknownRequestHandler();
 		IRequestHandler l2 = new ImageService(l1);
-		IRequestHandler l3 = new HtmlService(l2);
+		IRequestHandler l3 = new PageService(l2);
 		
 		IRequestHandler l4 = new RedirectService(l3);
 		

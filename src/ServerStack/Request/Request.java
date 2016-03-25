@@ -1,6 +1,6 @@
 package ServerStack.Request;
 
-import Utilities.Pattern.Pattern;
+import Utilities.Pattern;
 
 public class Request {
 

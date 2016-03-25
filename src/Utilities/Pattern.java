@@ -1,4 +1,4 @@
-package Utilities.Pattern;
+package Utilities;
 
 public class Pattern {
 
@@ -6,7 +6,12 @@ public class Pattern {
 	public Pattern next;
 
 	public Pattern(String part) {
-		this.part = part;
+		String[] parts = part.split("/");
+		this.part = parts[0];
+		
+		if (parts.length > 1){
+			this.next = new Pattern(parts, 1);
+		}
 	}
 	
 	public Pattern(String part, Pattern next){
@@ -29,8 +34,11 @@ public class Pattern {
 		}
 		boolean isFinal = next == null && (pattern.next == null || part.equals("*"));
 		if (isFinal){
-			System.out.println("final");
 			return true;
+		}
+		
+		if (next == null && pattern.next != null){
+			return false;
 		}
 		
 		boolean nextPartMatches = next.Match(pattern.next);
@@ -43,6 +51,22 @@ public class Pattern {
 			return this.part +'/'+next;
 		} else{
 			return this.part;
+		}
+	}
+
+	public int Length() {
+		if (next != null){
+			return 1 + next.Length();
+		} else{
+			return 1;
+		}
+	}
+
+	public String GetPart(int i) {
+		if (i == 0){
+			return part;
+		} else{
+			return next.GetPart(i-1);
 		}
 	}
 }

@@ -5,6 +5,12 @@ import java.io.PrintWriter;
 
 public class HtmlResponse implements IResponse {
 
+	private String Address;
+
+	public HtmlResponse(String string) {
+		this.Address = string;
+	}
+
 	@Override
 	public void WriteToStream(OutputStream stream) {
 		PrintWriter out = new PrintWriter(stream);

@@ -3,15 +3,16 @@ package ServerStack;
 import ServerStack.Request.Request;
 import ServerStack.Response.HtmlResponse;
 import ServerStack.Response.IResponse;
-import Utilities.Pattern.Pattern;
+import ServerStack.Response.ImageResponse;
+import Utilities.Pattern;
 
-public class HtmlService extends BaseRequestHandler {
+public class PageService extends BaseRequestHandler {
 
 	private Pattern pattern;
 
-	public HtmlService(IRequestHandler next) {
+	public PageService(IRequestHandler next) {
 		super(next);
-		pattern = new Pattern("home");
+		pattern = new Pattern("pages/*");
 	}
 
 	@Override
@@ -21,7 +22,7 @@ public class HtmlService extends BaseRequestHandler {
 
 	@Override
 	public IResponse GetResponse(Request request) {
-		return new HtmlResponse();
+		return new HtmlResponse("/"+request.Address.next+".html");
 	}
 
 }

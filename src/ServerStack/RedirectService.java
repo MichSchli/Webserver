@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import ServerStack.Request.Request;
-import Utilities.Pattern.*;
 import ServerStack.Response.IResponse;
+import Utilities.*;
 
 public class RedirectService implements IRequestHandler {
 

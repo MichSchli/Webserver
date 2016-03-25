@@ -5,7 +5,7 @@ import java.io.IOException;
 import ServerStack.Request.Request;
 import ServerStack.Response.IResponse;
 import ServerStack.Response.ImageResponse;
-import Utilities.Pattern.Pattern;
+import Utilities.Pattern;
 
 public class ImageService extends BaseRequestHandler{
 

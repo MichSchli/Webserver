@@ -3,7 +3,7 @@ package ServerStack.Request;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import Utilities.Pattern.Pattern;
+import Utilities.Pattern;
 
 public class RequestFactory {
 
