@@ -1,11 +1,11 @@
-package ServerStack;
+package Services;
 
 import java.io.IOException;
 
-import ServerStack.Request.Request;
-import ServerStack.Response.IResponse;
-import ServerStack.Response.ImageResponse;
 import Utilities.Pattern;
+import Utilities.Request.Request;
+import Utilities.Response.IResponse;
+import Utilities.Response.ImageResponse;
 
 public class ImageService extends BaseRequestHandler{
 

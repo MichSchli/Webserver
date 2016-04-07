@@ -1,4 +1,4 @@
-package ServerStack;
+package Services.Redirection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,16 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import ServerStack.Request.Request;
-import ServerStack.Response.IResponse;
+import Services.IRequestHandler;
 import Utilities.*;
+import Utilities.Request.Request;
+import Utilities.Response.IResponse;
 
-public class RedirectService implements IRequestHandler {
+public class RedirectionService implements IRequestHandler {
 
 	HashMap<Pattern, Pattern> patterns = new HashMap<Pattern, Pattern>();
 	private IRequestHandler next;
 
-	public RedirectService(IRequestHandler next) {
+	public RedirectionService(IRequestHandler next) {
 		this.next = next;
 
 		Pattern p1 = new Pattern(new String[] { "image", "*" }, 0);

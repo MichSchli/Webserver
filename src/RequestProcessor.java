@@ -7,11 +7,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
-import ServerStack.ServerStackTop;
-import ServerStack.Request.Request;
-import ServerStack.Request.RequestFactory;
-import ServerStack.Response.IResponse;
-import ServerStack.Response.TextResponse;
+import Services.ServerStackTop;
+import Utilities.Request.Request;
+import Utilities.Request.RequestFactory;
+import Utilities.Response.IResponse;
+import Utilities.Response.TextResponse;
 
 public class RequestProcessor implements Runnable {
  

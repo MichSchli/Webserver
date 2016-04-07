@@ -1,7 +1,7 @@
-package ServerStack;
+package Services;
 
-import ServerStack.Request.Request;
-import ServerStack.Response.IResponse;
+import Utilities.Request.Request;
+import Utilities.Response.IResponse;
 
 public abstract class BaseRequestHandler implements IRequestHandler{
 

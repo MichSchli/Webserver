@@ -1,8 +1,8 @@
-package ServerStack;
+package Services;
 
-import ServerStack.Request.Request;
-import ServerStack.Response.ResponseFactory;
-import ServerStack.Response.TextResponse;
+import Utilities.Request.Request;
+import Utilities.Response.ResponseFactory;
+import Utilities.Response.TextResponse;
 
 public class UnknownRequestHandler implements IRequestHandler {
 

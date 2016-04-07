@@ -1,4 +1,4 @@
-package ServerStack.Response;
+package Utilities.Response;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;

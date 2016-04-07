@@ -1,8 +1,8 @@
-package ServerStack;
+package Services;
 
-import ServerStack.Request.Request;
-import ServerStack.Response.IResponse;
-import ServerStack.Response.TextResponse;
+import Utilities.Request.Request;
+import Utilities.Response.IResponse;
+import Utilities.Response.TextResponse;
 
 public class ServiceLogger implements IRequestHandler{
 

@@ -1,7 +1,8 @@
-package ServerStack;
+package Services;
 
-import ServerStack.Request.Request;
-import ServerStack.Response.IResponse;
+import Services.Redirection.RedirectionService;
+import Utilities.Request.Request;
+import Utilities.Response.IResponse;
 
 public class ServerStackTop {
 
@@ -12,7 +13,7 @@ public class ServerStackTop {
 		IRequestHandler l2 = new ImageService(l1);
 		IRequestHandler l3 = new PageService(l2);
 		
-		IRequestHandler l4 = new RedirectService(l3);
+		IRequestHandler l4 = new RedirectionService(l3);
 		
 		this.top = new ServiceLogger(l4);
 	}

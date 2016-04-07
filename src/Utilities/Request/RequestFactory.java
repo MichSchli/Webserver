@@ -1,4 +1,4 @@
-package ServerStack.Request;
+package Utilities.Request;
 
 import java.io.BufferedReader;
 import java.io.IOException;
