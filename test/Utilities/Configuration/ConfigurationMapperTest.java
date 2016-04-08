@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import Services.Redirection.RedirectionServiceConfiguration;
-import Utilities.Configuration.ConfigurationReaderTest.TestConfig;
 
 public class ConfigurationMapperTest {
 

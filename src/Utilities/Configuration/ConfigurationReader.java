@@ -69,7 +69,7 @@ public class ConfigurationReader {
 						field.set(config, listValue);
 					}
 				} else {
-					field.set(config, _castHandler.cast(parts[1], type));
+					field.set(config, _castHandler.cast(parts[1], type.getTypeName()));
 				}
 
 			} catch (NoSuchFieldException e) {
@@ -108,7 +108,7 @@ public class ConfigurationReader {
 			if (elementType.getTypeName().equals(String.class.getTypeName())){
 				list.add(currentElement);
 			} else{
-				list.add(_castHandler.cast(currentElement, elementType));
+				list.add(_castHandler.cast(currentElement, elementType.getTypeName()));
 			}
 			currentElement = segment.remove(0).trim();
 		}

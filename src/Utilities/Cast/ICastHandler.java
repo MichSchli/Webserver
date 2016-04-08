@@ -4,6 +4,6 @@ import java.lang.reflect.Type;
 
 public interface ICastHandler{
 
-	Object cast(String string, Type elementType) throws CastException;
+	Object cast(String string, String type) throws CastException;
 
 }

@@ -145,7 +145,7 @@ public class ConfigurationReaderTest {
 
 		Mockito.when(m.mapHeader("TestConfig")).thenReturn(new TestConfig());
 		Mockito.when(f.readSegments(testConfigPath)).thenReturn(configs);
-		Mockito.when(c.cast("27", int.class)).thenReturn(27);
+		Mockito.when(c.cast("27", int.class.getTypeName())).thenReturn(27);
 		
 		List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
 
@@ -204,7 +204,7 @@ public class ConfigurationReaderTest {
 
 		Mockito.when(m.mapHeader("TestConfig")).thenReturn(new TestConfig());
 		Mockito.when(f.readSegments(testConfigPath)).thenReturn(configs);
-		Mockito.when(c.cast("27", int.class)).thenReturn(27);
+		Mockito.when(c.cast("27", int.class.getTypeName())).thenReturn(27);
 		
 		List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
 
@@ -309,7 +309,7 @@ public class ConfigurationReaderTest {
 
 		Mockito.when(f.readSegments(testConfigPath)).thenReturn(configs);
 		Mockito.when(m.mapHeader("TestConfig")).thenReturn(new TestConfig());
-		Mockito.when(c.cast("foo", int.class)).thenThrow(new CastException());
+		Mockito.when(c.cast("foo", int.class.getTypeName())).thenThrow(new CastException(""));
 		
 		try {
 			List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
