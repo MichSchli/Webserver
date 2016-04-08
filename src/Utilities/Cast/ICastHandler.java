@@ -1,7 +1,9 @@
 package Utilities.Cast;
 
+import java.lang.reflect.Type;
+
 public interface ICastHandler{
 
-	Object cast(String string, Class<?> type) throws CastException;
+	Object cast(String string, Type elementType) throws CastException;
 
 }

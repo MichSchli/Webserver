@@ -1,8 +1,9 @@
-package Utilities;
+package Utilities.Configuration;
 
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -19,12 +20,13 @@ import Utilities.Cast.ICastHandler;
 
 import org.mockito.Mockito;
 
-public class ConfigurationTest {
+public class ConfigurationReaderTest {
 
 
 	public class TestConfig implements IConfiguration{
 		public String TestField;
 		public int TestIntField;
+		public List<String> TestListField;
 	}
 	
 	@Test
@@ -152,6 +154,36 @@ public class ConfigurationTest {
 		Assert.assertNotNull(configurations.get(0));
 		Assert.assertEquals(new TestConfig().getClass(), configurations.get(0).getClass());
 		Assert.assertEquals(27, ((TestConfig)configurations.get(0)).TestIntField);
+	}
+	
+	@Test
+	public void Read_FillsOutListFields() throws ConfigurationException, CastException{
+		IFileHandler f = Mockito.mock(IFileHandler.class);
+		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
+		ICastHandler c = Mockito.mock(ICastHandler.class);
+		ConfigurationReader reader = new ConfigurationReader(f,m,c);
+		
+		String testConfigPath = "testpath";
+		ArrayList<List<String>> configs = new ArrayList<List<String>>();
+		ArrayList<String> config = new ArrayList<String>();
+		configs.add(config);
+		
+		config.add("[TestConfig]");
+		config.add("TestListField	{");
+		config.add("				abc");
+		config.add("				def");
+		config.add("				}");
+
+		Mockito.when(m.mapHeader("TestConfig")).thenReturn(new TestConfig());
+		Mockito.when(f.readSegments(testConfigPath)).thenReturn(configs);
+		
+		List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
+
+		Assert.assertNotNull(configurations);
+		Assert.assertEquals(1, configurations.size());
+		Assert.assertNotNull(configurations.get(0));
+		Assert.assertEquals(new TestConfig().getClass(), configurations.get(0).getClass());
+		Assert.assertEquals(Arrays.asList("abc", "def"), ((TestConfig)configurations.get(0)).TestListField);
 	}
 	
 	@Test
@@ -283,7 +315,7 @@ public class ConfigurationTest {
 			List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
 			fail("Exception not thrown.");
 		} catch (ConfigurationException e) {
-			Assert.assertEquals("Wrongful cast in configuration", e.getMessage());
+			Assert.assertEquals("Wrongful cast in configuration for TestConfig: TestIntField", e.getMessage());
 		}
 	}
 	
