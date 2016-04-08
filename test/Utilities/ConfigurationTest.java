@@ -1,7 +1,10 @@
-package Services;
+package Utilities;
+
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,12 +12,13 @@ import org.junit.Test;
 import Utilities.Configuration.ConfigurationReader;
 import Utilities.Configuration.IConfiguration;
 import Utilities.Configuration.IConfigurationMapper;
+import Utilities.Configuration.ConfigurationException;
 import Utilities.IO.IFileHandler;
 import Utilities.Cast.ICastHandler;
 
 import org.mockito.Mockito;
 
-public class ConfigurationServiceTest {
+public class ConfigurationTest {
 
 
 	public class TestConfig implements IConfiguration{
@@ -23,7 +27,7 @@ public class ConfigurationServiceTest {
 	}
 	
 	@Test
-	public void Read_EmptyConfigurationFile(){
+	public void Read_EmptyConfigurationFile() throws ConfigurationException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -39,7 +43,7 @@ public class ConfigurationServiceTest {
 	}
 	
 	@Test
-	public void Read_HeaderMapped(){
+	public void Read_HeaderMapped() throws ConfigurationException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -64,7 +68,7 @@ public class ConfigurationServiceTest {
 	}
 	
 	@Test
-	public void Read_MultipleHeaders(){
+	public void Read_MultipleHeaders() throws ConfigurationException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -95,7 +99,7 @@ public class ConfigurationServiceTest {
 	}
 	
 	@Test
-	public void Read_FillsOutFields(){
+	public void Read_FillsOutFields() throws ConfigurationException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -122,7 +126,7 @@ public class ConfigurationServiceTest {
 	}
 	
 	@Test
-	public void Read_FillsOutNonStringFields(){
+	public void Read_FillsOutNonStringFields() throws ConfigurationException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -150,7 +154,7 @@ public class ConfigurationServiceTest {
 	}
 	
 	@Test
-	public void Read_FillsOutMultipleFields(){
+	public void Read_FillsOutMultipleFields() throws ConfigurationException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -177,5 +181,81 @@ public class ConfigurationServiceTest {
 		Assert.assertEquals(new TestConfig().getClass(), configurations.get(0).getClass());
 		Assert.assertEquals(27, ((TestConfig)configurations.get(0)).TestIntField);
 		Assert.assertEquals("foo", ((TestConfig)configurations.get(0)).TestField);
+	}
+	
+	@Test
+	public void Error_HeaderWrongful(){
+		IFileHandler f = Mockito.mock(IFileHandler.class);
+		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
+		ICastHandler c = Mockito.mock(ICastHandler.class);
+		ConfigurationReader reader = new ConfigurationReader(f,m,c);
+		
+		String testConfigPath = "testpath";
+		ArrayList<List<String>> configs = new ArrayList<List<String>>();
+		ArrayList<String> config = new ArrayList<String>();
+		configs.add(config);
+		
+		config.add("TestConfig]");
+
+		Mockito.when(f.readSegments(testConfigPath)).thenReturn(configs);
+		
+		try {
+			List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
+			fail("Exception not thrown.");
+		} catch (ConfigurationException e) {
+			Assert.assertEquals("Wrongful configuration syntax", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void Error_TwoHeadersInSegment(){
+		IFileHandler f = Mockito.mock(IFileHandler.class);
+		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
+		ICastHandler c = Mockito.mock(ICastHandler.class);
+		ConfigurationReader reader = new ConfigurationReader(f,m,c);
+		
+		String testConfigPath = "testpath";
+		ArrayList<List<String>> configs = new ArrayList<List<String>>();
+		ArrayList<String> config = new ArrayList<String>();
+		configs.add(config);
+		
+		config.add("[TestConfig]");
+		config.add("[TestConfig2]");
+
+		Mockito.when(f.readSegments(testConfigPath)).thenReturn(configs);
+		Mockito.when(m.mapHeader("TestConfig")).thenReturn(new TestConfig());
+		
+		try {
+			List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
+			fail("Exception not thrown.");
+		} catch (ConfigurationException e) {
+			Assert.assertEquals("Wrongful configuration syntax", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void Error_NoValueForField(){
+		IFileHandler f = Mockito.mock(IFileHandler.class);
+		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
+		ICastHandler c = Mockito.mock(ICastHandler.class);
+		ConfigurationReader reader = new ConfigurationReader(f,m,c);
+		
+		String testConfigPath = "testpath";
+		ArrayList<List<String>> configs = new ArrayList<List<String>>();
+		ArrayList<String> config = new ArrayList<String>();
+		configs.add(config);
+		
+		config.add("[TestConfig]");
+		config.add("TestField");
+
+		Mockito.when(f.readSegments(testConfigPath)).thenReturn(configs);
+		Mockito.when(m.mapHeader("TestConfig")).thenReturn(new TestConfig());
+		
+		try {
+			List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
+			fail("Exception not thrown.");
+		} catch (ConfigurationException e) {
+			Assert.assertEquals("Wrongful configuration syntax", e.getMessage());
+		}
 	}
 }

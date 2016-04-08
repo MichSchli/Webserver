@@ -20,7 +20,7 @@ public class ConfigurationReader {
 		this._castHandler = castHandler;
 	}
 
-	public List<IConfiguration> readConfigurationFile(String filename){
+	public List<IConfiguration> readConfigurationFile(String filename) throws ConfigurationException{
 		List<List<String>> segments = _fileHandler.readSegments(filename);
 		
 		List<IConfiguration> configurations = new ArrayList<IConfiguration>();
@@ -32,13 +32,22 @@ public class ConfigurationReader {
 		return configurations;
 	}
 
-	private IConfiguration readConfigurationSegment(List<String> segment) {
+	private IConfiguration readConfigurationSegment(List<String> segment) throws ConfigurationException{
 		String headerName = segment.remove(0);
 		IConfiguration config = getConfigObject(headerName);
-		Class configClass = config.getClass();
+		
+		Class<? extends IConfiguration> configClass = config.getClass();
 		
 		for (String string : segment) {
+			if (string.startsWith("[") || string.endsWith("]")){
+				throw new ConfigurationException("Wrongful configuration syntax");
+			}
+			
 			String[] parts = string.split("\t");
+			
+			if (parts.length != 2){
+				throw new ConfigurationException("Wrongful configuration syntax");
+			}
 			
 			try {
 				Field field = configClass.getDeclaredField(parts[0]);
@@ -64,7 +73,10 @@ public class ConfigurationReader {
 		return config;
 	}
 
-	private IConfiguration getConfigObject(String headerName) {
+	private IConfiguration getConfigObject(String headerName) throws ConfigurationException{
+		if (!headerName.startsWith("[") || !headerName.endsWith("]")){
+			throw new ConfigurationException("Wrongful configuration syntax");
+		}
 		headerName = headerName.substring(1, headerName.length()-1);
 		
 		IConfiguration config = _mapper.mapHeader(headerName);
