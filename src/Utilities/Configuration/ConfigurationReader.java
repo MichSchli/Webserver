@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import Utilities.Cast.CastException;
 import Utilities.Cast.ICastHandler;
 import Utilities.IO.IFileHandler;
 
@@ -60,13 +61,15 @@ public class ConfigurationReader {
 				}
 				
 			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
+				throw new ConfigurationException("Field not defined for "+configClass.getSimpleName()+": "+parts[0]);
 			} catch (SecurityException e) {
-				e.printStackTrace();
+				throw new ConfigurationException("Field not defined for "+configClass.getSimpleName()+": "+parts[0]);
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
+			} catch (CastException e) {
+				throw new ConfigurationException("Wrongful cast in configuration");
 			}
 		}
 		

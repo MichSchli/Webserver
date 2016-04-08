@@ -14,6 +14,7 @@ import Utilities.Configuration.IConfiguration;
 import Utilities.Configuration.IConfigurationMapper;
 import Utilities.Configuration.ConfigurationException;
 import Utilities.IO.IFileHandler;
+import Utilities.Cast.CastException;
 import Utilities.Cast.ICastHandler;
 
 import org.mockito.Mockito;
@@ -126,7 +127,7 @@ public class ConfigurationTest {
 	}
 	
 	@Test
-	public void Read_FillsOutNonStringFields() throws ConfigurationException{
+	public void Read_FillsOutNonStringFields() throws ConfigurationException, CastException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -154,7 +155,7 @@ public class ConfigurationTest {
 	}
 	
 	@Test
-	public void Read_FillsOutMultipleFields() throws ConfigurationException{
+	public void Read_FillsOutMultipleFields() throws ConfigurationException, CastException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -208,7 +209,7 @@ public class ConfigurationTest {
 	}
 	
 	@Test
-	public void Error_TwoHeadersInSegment(){
+	public void Error_TwoHeadersInSegment() throws ConfigurationException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -234,7 +235,7 @@ public class ConfigurationTest {
 	}
 	
 	@Test
-	public void Error_NoValueForField(){
+	public void Error_NoValueForField() throws ConfigurationException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -256,6 +257,85 @@ public class ConfigurationTest {
 			fail("Exception not thrown.");
 		} catch (ConfigurationException e) {
 			Assert.assertEquals("Wrongful configuration syntax", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void Error_CannotCast() throws CastException, ConfigurationException{
+		IFileHandler f = Mockito.mock(IFileHandler.class);
+		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
+		ICastHandler c = Mockito.mock(ICastHandler.class);
+		ConfigurationReader reader = new ConfigurationReader(f,m,c);
+		
+		String testConfigPath = "testpath";
+		ArrayList<List<String>> configs = new ArrayList<List<String>>();
+		ArrayList<String> config = new ArrayList<String>();
+		configs.add(config);
+		
+		config.add("[TestConfig]");
+		config.add("TestIntField	foo");
+
+		Mockito.when(f.readSegments(testConfigPath)).thenReturn(configs);
+		Mockito.when(m.mapHeader("TestConfig")).thenReturn(new TestConfig());
+		Mockito.when(c.cast("foo", int.class)).thenThrow(new CastException());
+		
+		try {
+			List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
+			fail("Exception not thrown.");
+		} catch (ConfigurationException e) {
+			Assert.assertEquals("Wrongful cast in configuration", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void Error_NoSuchConfiguration() throws ConfigurationException{
+		IFileHandler f = Mockito.mock(IFileHandler.class);
+		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
+		ICastHandler c = Mockito.mock(ICastHandler.class);
+		ConfigurationReader reader = new ConfigurationReader(f,m,c);
+		
+		String testConfigPath = "testpath";
+		ArrayList<List<String>> configs = new ArrayList<List<String>>();
+		ArrayList<String> config = new ArrayList<String>();
+		configs.add(config);
+		
+		config.add("[TestConfig]");
+		config.add("TestIntField	foo");
+
+		Mockito.when(f.readSegments(testConfigPath)).thenReturn(configs);
+		Mockito.when(m.mapHeader("TestConfig")).thenThrow(new ConfigurationException("Configuration not known: TestConfig"));
+		
+		try {
+			List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
+			fail("Exception not thrown.");
+		} catch (ConfigurationException e) {
+			Assert.assertEquals("Configuration not known: TestConfig", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void Error_NoSuchField() throws ConfigurationException{
+		IFileHandler f = Mockito.mock(IFileHandler.class);
+		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
+		ICastHandler c = Mockito.mock(ICastHandler.class);
+		ConfigurationReader reader = new ConfigurationReader(f,m,c);
+		
+		String testConfigPath = "testpath";
+		ArrayList<List<String>> configs = new ArrayList<List<String>>();
+		ArrayList<String> config = new ArrayList<String>();
+		configs.add(config);
+		
+		config.add("[TestConfig]");
+		config.add("NonexistingField	foo");
+
+		Mockito.when(f.readSegments(testConfigPath)).thenReturn(configs);
+		Mockito.when(m.mapHeader("TestConfig")).thenReturn(new TestConfig());
+		
+		try {
+			List<IConfiguration> configurations = reader.readConfigurationFile(testConfigPath);
+			fail("Exception not thrown.");
+		} catch (ConfigurationException e) {
+			Assert.assertEquals("Field not defined for TestConfig: NonexistingField", e.getMessage());
 		}
 	}
 }

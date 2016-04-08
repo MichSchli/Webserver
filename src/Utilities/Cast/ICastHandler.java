@@ -2,6 +2,6 @@ package Utilities.Cast;
 
 public interface ICastHandler{
 
-	Object cast(String string, Class<?> type);
+	Object cast(String string, Class<?> type) throws CastException;
 
 }
