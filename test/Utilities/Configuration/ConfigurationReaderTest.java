@@ -2,6 +2,7 @@ package Utilities.Configuration;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Read_EmptyConfigurationFile() throws ConfigurationException{
+	public void Read_EmptyConfigurationFile() throws ConfigurationException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -46,7 +47,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Read_HeaderMapped() throws ConfigurationException{
+	public void Read_HeaderMapped() throws ConfigurationException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -71,7 +72,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Read_MultipleHeaders() throws ConfigurationException{
+	public void Read_MultipleHeaders() throws ConfigurationException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -102,7 +103,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Read_FillsOutFields() throws ConfigurationException{
+	public void Read_FillsOutFields() throws ConfigurationException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -129,7 +130,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Read_FillsOutNonStringFields() throws ConfigurationException, CastException{
+	public void Read_FillsOutNonStringFields() throws ConfigurationException, CastException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -157,7 +158,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Read_FillsOutListFields() throws ConfigurationException, CastException{
+	public void Read_FillsOutListFields() throws ConfigurationException, CastException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -187,7 +188,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Read_FillsOutMultipleFields() throws ConfigurationException, CastException{
+	public void Read_FillsOutMultipleFields() throws ConfigurationException, CastException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -217,7 +218,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Error_HeaderWrongful(){
+	public void Error_HeaderWrongful() throws FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -241,7 +242,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Error_TwoHeadersInSegment() throws ConfigurationException{
+	public void Error_TwoHeadersInSegment() throws ConfigurationException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -267,7 +268,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Error_NoValueForField() throws ConfigurationException{
+	public void Error_NoValueForField() throws ConfigurationException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -293,7 +294,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Error_CannotCast() throws CastException, ConfigurationException{
+	public void Error_CannotCast() throws CastException, ConfigurationException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -320,7 +321,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Error_NoSuchConfiguration() throws ConfigurationException{
+	public void Error_NoSuchConfiguration() throws ConfigurationException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);
@@ -346,7 +347,7 @@ public class ConfigurationReaderTest {
 	}
 	
 	@Test
-	public void Error_NoSuchField() throws ConfigurationException{
+	public void Error_NoSuchField() throws ConfigurationException, FileNotFoundException{
 		IFileHandler f = Mockito.mock(IFileHandler.class);
 		IConfigurationMapper m = Mockito.mock(IConfigurationMapper.class);
 		ICastHandler c = Mockito.mock(ICastHandler.class);

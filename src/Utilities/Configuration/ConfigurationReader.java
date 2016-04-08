@@ -1,5 +1,6 @@
 package Utilities.Configuration;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,7 +25,7 @@ public class ConfigurationReader {
 		this._castHandler = castHandler;
 	}
 
-	public List<IConfiguration> readConfigurationFile(String filename) throws ConfigurationException {
+	public List<IConfiguration> readConfigurationFile(String filename) throws ConfigurationException, FileNotFoundException {
 		List<List<String>> segments = _fileHandler.readSegments(filename);
 
 		List<IConfiguration> configurations = new ArrayList<IConfiguration>();
