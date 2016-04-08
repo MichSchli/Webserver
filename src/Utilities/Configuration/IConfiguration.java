@@ -1,5 +1,5 @@
 package Utilities.Configuration;
 
-public class IConfiguration {
+public interface IConfiguration {
 
 }

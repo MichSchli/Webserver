@@ -6,7 +6,7 @@ import org.junit.Test;
 public class PatternTest {
 	
 	@Test
-	public void Test_Create_FromUrl(){
+	public void Create_FromUrl(){
 		String string = "abc/def/12345/*/*";
 		Pattern p = new Pattern(string);
 		
