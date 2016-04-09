@@ -31,7 +31,7 @@ public class Listener {
 			
 			System.out.println("accepted");
 			
-			RequestProcessor requestProcessor = new RequestProcessor(connectionSocket);
+			RequestProcessor requestProcessor = new RequestProcessor(connectionSocket, configurations);
 			Thread thread = new Thread(requestProcessor);
 			thread.start();
 			

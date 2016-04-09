@@ -15,15 +15,36 @@ public class RedirectionService implements IRequestHandler {
 
 	HashMap<Pattern, Pattern> patterns = new HashMap<Pattern, Pattern>();
 	private IRequestHandler next;
+	private RedirectionServiceConfiguration _configuration;
 
-	public RedirectionService(IRequestHandler next) {
+	public RedirectionService(IRequestHandler next, RedirectionServiceConfiguration configuration) {
 		this.next = next;
+		this._configuration = configuration;
 
-		Pattern p1 = new Pattern(new String[] { "image", "*" }, 0);
-		Pattern p2 = new Pattern(new String[] { "image", "home", "michael", "media", "images", "*" }, 0);
-
-		patterns.put(p1, p2);
+		for (String redirection : _configuration.Redirections) {
+			addRedirection(redirection);
+		}
 	}
+	
+	
+
+	private void addRedirection(String redirection) {
+		String[] parts = redirection.split("=>");
+		
+		Pattern from = addressToPattern(parts[0].trim());
+		Pattern to = addressToPattern(parts[1].trim());
+		
+		patterns.put(from, to);
+	}
+
+
+
+	private Pattern addressToPattern(String address) {
+		String[] parts = address.split("/");
+		return new Pattern(parts, 0);
+	}
+
+
 
 	@Override
 	public IResponse Process(Request request) {

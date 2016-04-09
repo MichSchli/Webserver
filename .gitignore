@@ -10,6 +10,9 @@
 # Maven files
 target/*
 
+# Server configuration
+*.conf
+
 # Package Files #
 *.jar
 *.war
