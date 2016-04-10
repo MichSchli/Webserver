@@ -22,7 +22,7 @@ public class Listener {
 		
 		ConfigurationReader configReader = new ConfigurationReader(fileHandler, configMapper, castHandler);
 		
-		List<IConfiguration> configurations = configReader.readConfigurationFile("Webserver.conf");
+		List<IConfiguration> configurations = configReader.readConfigurationFile(args[0]);
 
 		System.out.println(configurations);
 		

@@ -1,7 +1,9 @@
-package Services;
+package Services.Images;
 
 import java.io.IOException;
 
+import Services.Common.BaseRequestHandler;
+import Services.Common.IRequestHandler;
 import Utilities.Pattern;
 import Utilities.Request.Request;
 import Utilities.Response.IResponse;

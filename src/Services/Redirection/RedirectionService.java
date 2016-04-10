@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import Services.IRequestHandler;
+import Services.Common.IRequestHandler;
 import Utilities.*;
 import Utilities.Request.Request;
 import Utilities.Response.IResponse;
