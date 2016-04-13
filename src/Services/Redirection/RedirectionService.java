@@ -48,6 +48,7 @@ public class RedirectionService implements IRequestHandler {
 
 	@Override
 	public IResponse Process(Request request) {
+		System.out.println("redirect");
 		for (Entry<Pattern, Pattern> entry : patterns.entrySet()) {
 			if (entry.getKey().Match(request.Address)) {
 				request.Address = replace(request.Address, entry.getKey(), entry.getValue());

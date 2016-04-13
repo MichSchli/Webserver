@@ -25,6 +25,7 @@ public class ImageService extends BaseRequestHandler{
 
 	@Override
 	public IResponse GetResponse(Request request) {
+		System.out.println("image");
 		try {
 			return new ImageResponse("/"+request.Address.next+".jpg");
 		} catch (IOException e) {

@@ -27,6 +27,7 @@ public class PageService extends BaseRequestHandler {
 
 	@Override
 	public IResponse GetResponse(Request request) {
+		System.out.println("page");
 		return new HtmlResponse("/"+request.Address.next+".html", _fileHandler);
 	}
 

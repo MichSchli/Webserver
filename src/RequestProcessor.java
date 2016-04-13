@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import Services.Common.IRequestHandler;
 import Services.Common.ServerStackTop;
 import Utilities.Configuration.IConfiguration;
 import Utilities.Request.Request;
@@ -19,10 +20,12 @@ public class RequestProcessor implements Runnable {
  
 	private Socket socket;
 	private List<IConfiguration> configs;
+	private IRequestHandler requestHandler;
 
-	public RequestProcessor(Socket socket, List<IConfiguration> configs) {
+	public RequestProcessor(Socket socket, List<IConfiguration> configs, IRequestHandler requestHandler) {
 		this.socket = socket;
 		this.configs = configs;
+		this.requestHandler = requestHandler;
 	}
 
 	@Override
@@ -41,9 +44,8 @@ public class RequestProcessor implements Runnable {
 		BufferedReader br = new BufferedReader(new InputStreamReader(inStream));
 		
 		Request request = RequestFactory.ReadFromBufferedReader(br);
-		ServerStackTop stack = new ServerStackTop(configs);
 		
-		IResponse response = stack.Process(request);
+		IResponse response = requestHandler.Process(request);
 		
 		response.WriteToStream(outStream);
         br.close(); // Close the input stream

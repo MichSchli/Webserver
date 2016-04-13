@@ -5,10 +5,10 @@ import Utilities.Request.Request;
 import Utilities.Response.IResponse;
 import Utilities.Response.TextResponse;
 
-public class ServiceLogger implements IRequestHandler{
+public class LoggingService implements IRequestHandler{
 
 	private IRequestHandler next;
-	public ServiceLogger(IRequestHandler next) {
+	public LoggingService(IRequestHandler next) {
 		this.next = next;
 	}
 	

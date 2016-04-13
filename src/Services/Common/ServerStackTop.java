@@ -5,7 +5,7 @@ import java.util.List;
 import Services.UnknownRequestHandler;
 import Services.Html.PageService;
 import Services.ImageService.ImageService;
-import Services.Logging.ServiceLogger;
+import Services.Logging.LoggingService;
 import Services.Redirection.RedirectionService;
 import Services.Redirection.RedirectionServiceConfiguration;
 import Utilities.Configuration.IConfiguration;
@@ -26,7 +26,7 @@ public class ServerStackTop {
 		for (IConfiguration config : configurations) {
 			if (config.getClass().getTypeName().endsWith("RedirectionServiceConfiguration")){
 				IRequestHandler l4 = new RedirectionService(l3, (RedirectionServiceConfiguration) config);
-				this.top = new ServiceLogger(l4);
+				this.top = new LoggingService(l4);
 			}
 		}
 		
