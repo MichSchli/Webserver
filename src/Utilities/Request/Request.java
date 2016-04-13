@@ -4,7 +4,7 @@ import Utilities.Pattern;
 
 public class Request {
 
-	public String Method;
+	public RequestMethodType Method;
 	public Pattern Address;
 
 	@Override

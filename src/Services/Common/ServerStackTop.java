@@ -4,7 +4,7 @@ import java.util.List;
 
 import Services.UnknownRequestHandler;
 import Services.Html.PageService;
-import Services.Images.ImageService;
+import Services.ImageService.ImageService;
 import Services.Logging.ServiceLogger;
 import Services.Redirection.RedirectionService;
 import Services.Redirection.RedirectionServiceConfiguration;

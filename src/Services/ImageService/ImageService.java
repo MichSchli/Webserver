@@ -1,4 +1,4 @@
-package Services.Images;
+package Services.ImageService;
 
 import java.io.IOException;
 
