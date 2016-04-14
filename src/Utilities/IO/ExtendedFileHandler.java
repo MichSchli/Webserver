@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Metadata.Common.IEntity;
+import Utilities.Serialization.ISerializableEntity;
+
 public class ExtendedFileHandler implements IFileHandler {
 
 	private IFileHandler _fileHandler;
@@ -36,6 +39,11 @@ public class ExtendedFileHandler implements IFileHandler {
 		}
 
 		return list;
+	}
+
+	@Override
+	public <T extends ISerializableEntity> T readJson(String filename, Class<T> type) throws FileNotFoundException {
+		throw new UnsupportedOperationException();
 	}
 
 }

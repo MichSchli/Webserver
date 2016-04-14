@@ -7,7 +7,8 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.parameters.ComponentParameter;
 
-import Server.ApplicationInstaller;
+import Server.WebserverApplicationInstaller;
+import Server.RequestProcessor;
 import Services.UnknownRequestHandler;
 import Services.Common.IRequestHandler;
 import Services.Html.PageService;
@@ -30,7 +31,7 @@ public class Listener {
 	public static void main(String[] args) throws IOException, ConfigurationException {
 		ServerSocket welcomeSocket = new ServerSocket(9001);
 		
-		ApplicationInstaller installer = new ApplicationInstaller(args[0]);
+		WebserverApplicationInstaller installer = new WebserverApplicationInstaller(args[0]);
 						
 		while(true){
 			Socket connectionSocket = welcomeSocket.accept();

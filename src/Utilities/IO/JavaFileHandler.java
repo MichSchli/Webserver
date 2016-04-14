@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import Metadata.Common.IEntity;
+import Utilities.Serialization.ISerializableEntity;
+
 public class JavaFileHandler implements IFileHandler {
 
 	@Override
@@ -21,6 +24,11 @@ public class JavaFileHandler implements IFileHandler {
 
 	@Override
 	public List<List<String>> readSegments(String filename) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <T extends ISerializableEntity> T readJson(String filename, Class<T> type) throws FileNotFoundException {
 		throw new UnsupportedOperationException();
 	}
 

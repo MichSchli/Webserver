@@ -1,5 +1,7 @@
 package Metadata.Images;
 
-public interface IImageRepository {
+import Metadata.Common.IRepository;
+
+public interface IImageRepository extends IRepository {
 
 }

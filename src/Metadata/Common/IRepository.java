@@ -1,5 +1,7 @@
 package Metadata.Common;
 
-public interface IRepository {
+import Utilities.Pattern;
 
+public interface IRepository {
+	public IEntity Get(Pattern metadataRequest);
 }
