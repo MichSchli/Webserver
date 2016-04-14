@@ -1,5 +1,6 @@
 package Utilities.Configuration;
 
+import Services.ImageService.ImageServiceConfiguration;
 import Services.Redirection.RedirectionServiceConfiguration;
 
 public class ConfigurationMapper implements IConfigurationMapper {
@@ -9,7 +10,8 @@ public class ConfigurationMapper implements IConfigurationMapper {
 		switch (string) {
 		case "RedirectionService":
 			return new RedirectionServiceConfiguration();
-
+		case "ImageService":
+			return new ImageServiceConfiguration();
 		default:
 			throw new ConfigurationException("Configuration not known: "+string);
 		}

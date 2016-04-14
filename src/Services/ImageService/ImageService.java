@@ -12,10 +12,14 @@ import Utilities.Response.ImageResponse;
 public class ImageService extends BaseRequestHandler{
 
 	private Pattern pattern;
+	private ImageServiceConfiguration _configuration;
 
-	public ImageService(IRequestHandler next) {
+	public ImageService(IRequestHandler next, ImageServiceConfiguration configuration) {
 		super(next);
-		pattern = new Pattern("image/*".split("/"), 0);
+		_configuration = configuration;
+		
+		String[] targetAddress = {_configuration.ServiceName, "*"};
+		pattern = new Pattern(targetAddress, 0);
 	}
 
 	@Override

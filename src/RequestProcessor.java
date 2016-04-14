@@ -9,7 +9,6 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 import Services.Common.IRequestHandler;
-import Services.Common.ServerStackTop;
 import Utilities.Configuration.IConfiguration;
 import Utilities.Request.Request;
 import Utilities.Request.RequestFactory;
@@ -19,12 +18,10 @@ import Utilities.Response.TextResponse;
 public class RequestProcessor implements Runnable {
  
 	private Socket socket;
-	private List<IConfiguration> configs;
 	private IRequestHandler requestHandler;
 
-	public RequestProcessor(Socket socket, List<IConfiguration> configs, IRequestHandler requestHandler) {
+	public RequestProcessor(Socket socket, IRequestHandler requestHandler) {
 		this.socket = socket;
-		this.configs = configs;
 		this.requestHandler = requestHandler;
 	}
 
