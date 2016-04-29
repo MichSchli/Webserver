@@ -6,8 +6,6 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.parameters.ComponentParameter;
 
-import Metadata.Server.IMetadataServer;
-import Metadata.Server.MetadataServer;
 import Services.UnknownRequestHandler;
 import Services.Common.IRequestHandler;
 import Services.Html.PageService;
@@ -26,7 +24,8 @@ import Utilities.Configuration.IConfiguration;
 import Utilities.IO.ExtendedFileHandler;
 import Utilities.IO.IFileHandler;
 import Utilities.IO.JavaFileHandler;
-import Utilities.IO.JsonFileHandler;
+import api.Client;
+import infrastructure.IApiClient;
 
 public class WebserverApplicationInstaller {
 	private DefaultPicoContainer _container;
@@ -37,7 +36,7 @@ public class WebserverApplicationInstaller {
 		InstallUtilityComponents(_container);
 		InstallConfigurations(_container, configurationFile);
 		
-		InstallMetadataServer(_container);
+		InstallApiClient(_container);
 		
 		InstallServiceStack(_container);
 	}
@@ -49,8 +48,7 @@ public class WebserverApplicationInstaller {
 	private void InstallUtilityComponents(DefaultPicoContainer container){
 		container.addComponent(CastHandler.class);
 		container.addComponent(JavaFileHandler.class);
-		container.addComponent(ExtendedFileHandler.class,ExtendedFileHandler.class, new ComponentParameter(JavaFileHandler.class));
-		container.addComponent(IFileHandler.class, JsonFileHandler.class, new ComponentParameter(ExtendedFileHandler.class));
+		container.addComponent(IFileHandler.class,ExtendedFileHandler.class, new ComponentParameter(JavaFileHandler.class));
 	}
 	
 	private void InstallConfigurations(DefaultPicoContainer container, String configurationFile) throws FileNotFoundException, ConfigurationException{
@@ -81,7 +79,7 @@ public class WebserverApplicationInstaller {
 		container.addComponent(MetadataService.class, MetadataService.class, new ComponentParameter[] {
 				new ComponentParameter(PageService.class), 
 				new ComponentParameter(MetadataServiceConfiguration.class),
-				new ComponentParameter(IMetadataServer.class)}
+				new ComponentParameter(IApiClient.class)}
 		);
 		
 		container.addComponent(RedirectionService.class, RedirectionService.class, new ComponentParameter[] {
@@ -92,7 +90,7 @@ public class WebserverApplicationInstaller {
 		container.addComponent(IRequestHandler.class, LoggingService.class, new ComponentParameter(RedirectionService.class));
 	}
 	
-	private void InstallMetadataServer(DefaultPicoContainer container){
-		container.addComponent(IMetadataServer.class, MetadataServer.class);
+	private void InstallApiClient(DefaultPicoContainer container){
+		container.addComponent(IApiClient.class, new Client());
 	}
 }

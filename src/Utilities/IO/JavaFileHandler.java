@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import Metadata.Common.IEntity;
 import Utilities.Serialization.ISerializableEntity;
 
 public class JavaFileHandler implements IFileHandler {

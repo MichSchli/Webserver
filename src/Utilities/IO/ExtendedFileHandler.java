@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Metadata.Common.IEntity;
 import Utilities.Serialization.ISerializableEntity;
 
 public class ExtendedFileHandler implements IFileHandler {
