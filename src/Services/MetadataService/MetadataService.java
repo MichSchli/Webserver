@@ -3,6 +3,8 @@ package Services.MetadataService;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.Query;
+
 import Services.Common.BaseRequestHandler;
 import Services.Common.IRequestHandler;
 import Utilities.Pattern;
@@ -14,7 +16,9 @@ import api.ApiRequest;
 import domains.Domain;
 import infrastructure.IApiClient;
 import infrastructure.IModel;
+import infrastructure.specifications.ISpecification;
 import infrastructure.specifications.fields.FieldEqualsSpecification;
+import infrastructure.specifications.logic.AndSpecification;
 
 public class MetadataService extends BaseRequestHandler {
 
@@ -30,7 +34,7 @@ public class MetadataService extends BaseRequestHandler {
 		patterns = new ArrayList<Pattern>();
 		
 		for (String domain : configuration.Domains) {
-			String[] targetAddress = {_configuration.Address, domain, "*"};
+			String[] targetAddress = {_configuration.Address, domain};
 			patterns.add(new Pattern(targetAddress, 0));
 		}
 		
@@ -39,6 +43,7 @@ public class MetadataService extends BaseRequestHandler {
 
 	@Override
 	public boolean Accept(Request request) {
+		System.out.println(request.Address);
 		for (Pattern pattern : patterns) {
 			if (pattern.Match(request.Address)){
 				return true;
@@ -54,18 +59,48 @@ public class MetadataService extends BaseRequestHandler {
 			ApiRequest apiRequest = BuildApiRequest(request);
 			
 			//TODO: this is fake
+			System.out.println("jhe");
 			
-			apiRequest.domain = Domain.Images;
-			FieldEqualsSpecification spec = new FieldEqualsSpecification("id");
-			spec.values = new ArrayList<String>();
-			spec.values.add("2");
+			apiRequest.domain = getDomain(request);
+			apiRequest.specifications = getSpecifications(request);
 			
-			apiRequest.specifications = spec;
 			System.out.println("abc");
 			List<IModel> responseModels = _client.Search(apiRequest);
 			return toJsonResponse(responseModels);
 		default:
 			return ResponseFactory.Error("404", "The requested http method ("+request.Method+" is not supported for metadata.");
+		}
+	}
+
+	private ISpecification getSpecifications(Request request) {
+		String[] parts = request.Queries.get(0).split("=");
+		FieldEqualsSpecification fspec = new FieldEqualsSpecification(parts[0]);
+		fspec.values = new ArrayList<String>();
+		for (String string : parts[1].split(",")) {
+			fspec.values.add(string);
+		}
+		
+		ISpecification aspec = fspec;
+		
+		for (String query : request.Queries.subList(1, request.Queries.size())) {
+			parts = query.split("=");
+			fspec = new FieldEqualsSpecification(parts[0]);
+			fspec.values = new ArrayList<String>();
+			for (String string : parts[1].split(",")) {
+				fspec.values.add(string);
+			}
+			aspec = new AndSpecification(aspec, fspec);
+		}
+		System.out.println(aspec);
+		return aspec;
+	}
+
+	private Domain getDomain(Request request) {
+		switch(request.Address.next.part){
+		case "images":
+			return Domain.Images;
+		default:
+			return null;
 		}
 	}
 
