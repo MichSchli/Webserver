@@ -3,11 +3,10 @@ package Services.Html;
 import Services.Common.BaseRequestHandler;
 import Services.Common.IRequestHandler;
 import Utilities.Pattern;
-import Utilities.IO.IFileHandler;
+import IO.IFileHandler;
 import Utilities.Request.Request;
 import Utilities.Response.HtmlResponse;
 import Utilities.Response.IResponse;
-import Utilities.Response.ImageResponse;
 
 public class PageService extends BaseRequestHandler {
 

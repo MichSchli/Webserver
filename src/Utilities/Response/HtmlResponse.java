@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
-import Utilities.IO.IFileHandler;
+import IO.IFileHandler;
 
 public class HtmlResponse implements IResponse {
 

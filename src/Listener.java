@@ -1,31 +1,9 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
-
-import org.picocontainer.DefaultPicoContainer;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.parameters.ComponentParameter;
-
 import Server.WebserverApplicationInstaller;
 import Server.RequestProcessor;
-import Services.UnknownRequestHandler;
-import Services.Common.IRequestHandler;
-import Services.Html.PageService;
-import Services.ImageService.ImageService;
-import Services.ImageService.ImageServiceConfiguration;
-import Services.Logging.LoggingService;
-import Services.Redirection.RedirectionService;
-import Services.Redirection.RedirectionServiceConfiguration;
-import Utilities.Cast.CastHandler;
-import Utilities.Configuration.ConfigurationException;
-import Utilities.Configuration.ConfigurationMapper;
-import Utilities.Configuration.ConfigurationReader;
-import Utilities.Configuration.IConfiguration;
-import Utilities.IO.ExtendedFileHandler;
-import Utilities.IO.IFileHandler;
-import Utilities.IO.JavaFileHandler;
-import api.Client;
+import Configuration.ConfigurationException;
 
 public class Listener {
 	

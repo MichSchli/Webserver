@@ -3,7 +3,6 @@ package Server;
 import java.io.FileNotFoundException;
 
 import org.picocontainer.DefaultPicoContainer;
-import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.parameters.ComponentParameter;
 
 import Services.UnknownRequestHandler;
@@ -16,14 +15,17 @@ import Services.MetadataService.MetadataService;
 import Services.MetadataService.MetadataServiceConfiguration;
 import Services.Redirection.RedirectionService;
 import Services.Redirection.RedirectionServiceConfiguration;
-import Utilities.Cast.CastHandler;
-import Utilities.Configuration.ConfigurationException;
-import Utilities.Configuration.ConfigurationMapper;
-import Utilities.Configuration.ConfigurationReader;
-import Utilities.Configuration.IConfiguration;
-import Utilities.IO.ExtendedFileHandler;
-import Utilities.IO.IFileHandler;
-import Utilities.IO.JavaFileHandler;
+import Cast.CastHandler;
+import Configuration.ConfigurationException;
+import Configuration.ConfigurationMapper;
+import Configuration.ConfigurationReader;
+import Configuration.IConfiguration;
+import IO.ExtendedFileHandler;
+import IO.IFileHandler;
+import IO.JavaFileHandler;
+import Serialization.ISerializer;
+import Serialization.Json.JsonSerializer;
+import api.ApiConfiguration;
 import api.Client;
 import infrastructure.IApiClient;
 
@@ -32,12 +34,9 @@ public class WebserverApplicationInstaller {
 
 	public WebserverApplicationInstaller(String configurationFile) throws FileNotFoundException, ConfigurationException {
 		this._container = new DefaultPicoContainer();
-		
 		InstallUtilityComponents(_container);
 		InstallConfigurations(_container, configurationFile);
-		
 		InstallApiClient(_container);
-		
 		InstallServiceStack(_container);
 	}
 	
@@ -46,13 +45,20 @@ public class WebserverApplicationInstaller {
 	}
 	
 	private void InstallUtilityComponents(DefaultPicoContainer container){
+		container.addComponent(ISerializer.class, JsonSerializer.class);
 		container.addComponent(CastHandler.class);
 		container.addComponent(JavaFileHandler.class);
 		container.addComponent(IFileHandler.class,ExtendedFileHandler.class, new ComponentParameter(JavaFileHandler.class));
 	}
 	
 	private void InstallConfigurations(DefaultPicoContainer container, String configurationFile) throws FileNotFoundException, ConfigurationException{
-		container.addComponent(ConfigurationMapper.class);
+		ConfigurationMapper mapper = new ConfigurationMapper();
+		mapper.addHeader("RedirectionService", new RedirectionServiceConfiguration());
+		mapper.addHeader("ImageService", new ImageServiceConfiguration());
+		mapper.addHeader("MetadataService", new MetadataServiceConfiguration());
+		mapper.addHeader("Api", new ApiConfiguration());
+		
+		container.addComponent(ConfigurationMapper.class, mapper);
 		container.addComponent(ConfigurationReader.class);
 		
 		ConfigurationReader configReader = (ConfigurationReader) container.getComponent(ConfigurationReader.class);
@@ -79,7 +85,8 @@ public class WebserverApplicationInstaller {
 		container.addComponent(MetadataService.class, MetadataService.class, new ComponentParameter[] {
 				new ComponentParameter(PageService.class), 
 				new ComponentParameter(MetadataServiceConfiguration.class),
-				new ComponentParameter(IApiClient.class)}
+				new ComponentParameter(IApiClient.class),
+				new ComponentParameter(ISerializer.class)}
 		);
 		
 		container.addComponent(RedirectionService.class, RedirectionService.class, new ComponentParameter[] {
@@ -91,6 +98,6 @@ public class WebserverApplicationInstaller {
 	}
 	
 	private void InstallApiClient(DefaultPicoContainer container){
-		container.addComponent(IApiClient.class, new Client());
+		container.addComponent(IApiClient.class, Client.class);
 	}
 }

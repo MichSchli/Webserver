@@ -2,7 +2,7 @@ package Services.Redirection;
 
 import java.util.List;
 
-import Utilities.Configuration.IConfiguration;
+import Configuration.IConfiguration;
 
 public class RedirectionServiceConfiguration implements IConfiguration{
 	public List<String> Redirections;

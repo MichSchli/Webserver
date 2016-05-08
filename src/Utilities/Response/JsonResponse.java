@@ -2,12 +2,8 @@ package Utilities.Response;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import Utilities.Serialization.ISerializableEntity;
-import database.query.sort.IDbSort;
 
 public class JsonResponse implements IResponse{
 

@@ -3,7 +3,6 @@ package Utilities.Request;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import Utilities.Pattern;
 import Utilities.Url.Url;
 import Utilities.Url.UrlFactory;
 

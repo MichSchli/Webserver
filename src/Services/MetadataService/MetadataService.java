@@ -1,10 +1,10 @@
 package Services.MetadataService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import javax.management.Query;
-
+import Serialization.ISerializer;
 import Services.Common.BaseRequestHandler;
 import Services.Common.IRequestHandler;
 import Utilities.Pattern;
@@ -16,20 +16,22 @@ import api.ApiRequest;
 import domains.Domain;
 import infrastructure.IApiClient;
 import infrastructure.IModel;
-import infrastructure.specifications.ISpecification;
-import infrastructure.specifications.fields.FieldEqualsSpecification;
-import infrastructure.specifications.logic.AndSpecification;
 
 public class MetadataService extends BaseRequestHandler {
 
 	private List<Pattern> patterns;
 	private MetadataServiceConfiguration _configuration;
 	private IApiClient _client;
+	private ISerializer _serializer;
 
-	public MetadataService(IRequestHandler next, MetadataServiceConfiguration configuration, IApiClient client) {
+	public MetadataService(IRequestHandler next, 
+			MetadataServiceConfiguration configuration, 
+			IApiClient client,
+			ISerializer serializer) {
 		super(next);
 		_configuration = configuration;
 		_client = client;
+		_serializer = serializer;
 		
 		patterns = new ArrayList<Pattern>();
 		
@@ -62,7 +64,19 @@ public class MetadataService extends BaseRequestHandler {
 			System.out.println("jhe");
 			
 			apiRequest.domain = getDomain(request);
-			apiRequest.specifications = getSpecifications(request);
+			
+			HashMap<String, String> queryHashmap = new HashMap<String, String>();
+			
+			for (String string : request.Queries) {
+				String[] parts = string.split("=");
+				if (parts.length > 1){
+					queryHashmap.put(parts[0], parts[1]);
+				}else{
+					queryHashmap.put(parts[0], "true");
+				}
+			}
+
+			apiRequest.specifications = apiRequest.domain.getNewSpecification(queryHashmap);
 			
 			System.out.println("abc");
 			List<IModel> responseModels = _client.Search(apiRequest);
@@ -72,40 +86,12 @@ public class MetadataService extends BaseRequestHandler {
 		}
 	}
 
-	private ISpecification getSpecifications(Request request) {
-		String[] parts = request.Queries.get(0).split("=");
-		FieldEqualsSpecification fspec = new FieldEqualsSpecification(parts[0]);
-		fspec.values = new ArrayList<String>();
-		for (String string : parts[1].split(",")) {
-			fspec.values.add(string);
-		}
-		
-		ISpecification aspec = fspec;
-		
-		for (String query : request.Queries.subList(1, request.Queries.size())) {
-			parts = query.split("=");
-			fspec = new FieldEqualsSpecification(parts[0]);
-			fspec.values = new ArrayList<String>();
-			for (String string : parts[1].split(",")) {
-				fspec.values.add(string);
-			}
-			aspec = new AndSpecification(aspec, fspec);
-		}
-		System.out.println(aspec);
-		return aspec;
-	}
-
-	private Domain getDomain(Request request) {
-		switch(request.Address.next.part){
-		case "images":
-			return Domain.Images;
-		default:
-			return null;
-		}
+	private Domain<?,?> getDomain(Request request) {
+		return _client.getDomain(request.Address.next.part);
 	}
 
 	private JsonResponse toJsonResponse(List<IModel> responseModels) {
-		return new JsonResponse(responseModels.stream().map(x -> x.Serialize()));
+		return new JsonResponse(responseModels.stream().map(x -> (String)_serializer.serializeAsString(x)));
 	}
 
 	private ApiRequest BuildApiRequest(Request request) {

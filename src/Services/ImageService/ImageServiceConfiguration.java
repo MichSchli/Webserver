@@ -1,6 +1,6 @@
 package Services.ImageService;
 
-import Utilities.Configuration.IConfiguration;
+import Configuration.IConfiguration;
 
 public class ImageServiceConfiguration implements IConfiguration {
 

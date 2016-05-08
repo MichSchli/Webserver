@@ -1,13 +1,10 @@
 package Utilities.Response;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-
 import javax.imageio.ImageIO;
 
 public class ImageResponse implements IResponse {
